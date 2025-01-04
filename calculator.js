@@ -66,16 +66,34 @@ const operate = function(x, op, y) {
 // function that updates the display after button interaction
 const updateDisplay = function(e) {
 
-  if (display.textContent.includes('0')) {
+  if (display.textContent.includes('Click Button')) {
     display.textContent = '';
   }
-  
+
   display.textContent += e;
 }
  
 // function that clears the calculator buffer
 const clearDisplay = function(e) {
-  display.textContent = 0;
+  calculator.primary = '';
+  calculator.secondary = '';
+  calculator.operator = '';
+
+  if (e.target.id === 'clear') {
+    display.textContent = 'Click Button';
+  }
+  else if (e.target.id === '=') {
+    display.textContent = '';
+  }
+}
+
+// function that prints the result to display
+const displayResult = function(total) {
+  display.textContent = '';
+  calculator.primary = '';
+  calculator.secondary = '';
+  calculator.operator = '';
+  updateDisplay(total);
 }
 
 // ========================================================================================
@@ -142,4 +160,9 @@ operatorButtons.forEach((button) => {
 });
 
 // Event for when user clicks on result button
-
+resultButton.addEventListener('click', (event) => {
+  const total = operate(Number(calculator.primary), calculator.operator, Number(calculator.secondary));
+  clearDisplay(event);
+  updateDisplay(total);
+  console.log(`Total = ${total}`);
+});
