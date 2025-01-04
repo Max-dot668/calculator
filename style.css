@@ -1,0 +1,96 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: beige;
+}
+
+h2 {
+  color: lightblue;
+  text-align: center;
+}
+
+.container {
+  background-color: navy;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  border: 2px solid black;
+  height: 700px;
+  width: 600px;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.display {
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  padding: 8px;
+  border: 3px solid black;
+  background-color: lightgreen;
+  height: 150px;
+  width: 530px;
+  margin-bottom: 20px;
+  font-size: 70px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  width: 530px;
+  padding: 20px;
+}
+
+.operator-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.number-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.delete-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+button {
+  background-color: lightblue;
+  color: navy;
+  border-radius: 8px;
+  border: none;
+}
+
+.operator-buttons button {
+  width: 105px;
+  height: 45px;
+}
+
+.number-buttons button,
+.delete-buttons button {
+  width: 100%;
+  height: 45px;
+}
+
+.result-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.result-button button {
+  width: 350px;
+  height: 45px;
+  border-radius: 25px;
+}
