@@ -7,27 +7,31 @@
 
 // ========================================================================================
 
-// function that adds values
+// Function that adds values
 const add = function(x,y) {
   return x + y;
 }
 
-// function that substracts values
+// Function that substracts values
 const substract = function(x,y) {
   return x - y;
 }
 
-// function that multiplies values
+// Function that multiplies values
 const multiply = function(x,y) {
   return x * y;
 }
 
-// function that divides values
+// Function that divides values
 const divide = function(x,y) {
+  if (y === 0) {
+    console.log("division by 0 is not allowed.");
+    return null;
+  }
   return x / y;
 }
 
-// function that gets the remainder of the value
+// Function that gets the remainder of the value
 const remainder = function(x, y) {
   if (y === 0) {
     return null;
@@ -37,7 +41,7 @@ const remainder = function(x, y) {
   }
 }
 
-// function operator that takes an operator and two numbers
+// Function operator that takes an operator and two numbers
 const operate = function(x, op, y) {
   let result = 0;
   switch(op) {
@@ -63,17 +67,17 @@ const operate = function(x, op, y) {
   return result;
 }
 
-// function that updates the display after button interaction
+// Function that updates the display after button interaction
 const updateDisplay = function(e) {
 
   if (display.textContent.includes('Click Button')) {
     display.textContent = '';
   }
 
-  display.textContent += e;
+    display.textContent += e;  
 }
  
-// function that clears the calculator buffer
+// Function that clears the calculator buffer
 const clearDisplay = function(e) {
   calculator.primary = '';
   calculator.secondary = '';
@@ -87,7 +91,36 @@ const clearDisplay = function(e) {
   }
 }
 
-// function that prints the result to display
+// Function that deletes the last char in the calculator buffer
+const deleteChar = function(e) {
+  
+  if (calculator.primary !== '' && calculator.operator !== '' && calculator.secondary !== '') {
+    let str = calculator.secondary;
+    calculator.secondary = str.slice(0, str.length - 1);
+    display.textContent = '';
+    let arr = [calculator.primary + calculator.operator + calculator.secondary];
+    updateDisplay(arr);
+    console.log(`calc.secondary after delete: ${calculator.secondary}`);
+  }
+  else if (calculator.primary !== '' && calculator.operator !== '' && calculator.secondary === '') {
+    let str = calculator.operator;
+    calculator.operator = str.slice(0, str.length - 1);
+    display.textContent = '';
+    let arr = [calculator.primary + calculator.operator + calculator.secondary];
+    updateDisplay(arr);
+    console.log(`calc.operator after delete: ${calculator.operator}`);
+  }
+  else if (calculator.primary !== '' && calculator.operator === '' && calculator.secondary === '') {
+    let str = calculator.primary;
+    calculator.primary = str.slice(0, str.length - 1);
+    display.textContent = '';
+    let arr = [calculator.primary + calculator.operator + calculator.secondary];
+    updateDisplay(arr);
+    console.log(`calc.secondary after delete: ${calculator.primary}`);
+  }
+}
+
+// Function that prints the result to display
 const displayResult = function(total) {
   display.textContent = '';
   calculator.primary = '';
@@ -98,12 +131,14 @@ const displayResult = function(total) {
 
 // ========================================================================================
 
-// create an object calculator that will hold the three variables to perform the operation
+// Create an object calculator that will hold the three variables to perform the operation
 const calculator = {
   primary: '',
   operator: '',
   secondary: '',
 };
+
+// ========================================================================================
 
 // Create DOM for each button in calculator
 const deleteButtons = document.querySelectorAll('.delete-buttons');
@@ -111,20 +146,21 @@ const numberButtons = document.querySelectorAll('.number-buttons');
 const operatorButtons = document.querySelectorAll('.operator-buttons');
 const resultButton = document.querySelector('.result-button');
 const display = document.querySelector('.display');
+
+// Current display variable 
 let currDisplay = '';
 
 // Event for when user clicks clear or delete buttons
 deleteButtons.forEach((button) => {
   button.addEventListener('click', (event) => {
-    // if user clicks 'clear' button
+
     if (event.target.id === "clear") {
       clearDisplay(event);
     }
+    else if (event.target.id === "delete") {
+      deleteChar(event);
+    }
 
-    // if user clicks 'delete' button
-      /*
-       * code here 
-       */
   });
 });
 
@@ -142,8 +178,8 @@ numberButtons.forEach((button) => {
       calculator.secondary += value;
     }
 
-    console.log(`This is the calculator.primary: ${calculator.primary}`);
-    console.log(`This is the calculator.secondary: ${calculator.secondary}`);
+    console.log(`calculator.primary: ${calculator.primary}`);
+    console.log(`calculator.secondary: ${calculator.secondary}`);
 });
 });
 
@@ -163,6 +199,11 @@ operatorButtons.forEach((button) => {
 resultButton.addEventListener('click', (event) => {
   const total = operate(Number(calculator.primary), calculator.operator, Number(calculator.secondary));
   clearDisplay(event);
-  updateDisplay(total);
+  currDisplay = updateDisplay(total);
+
+  calculator.primary = total;
+  calculator.operator = '';
+  calculator.secondary = '';
+  
   console.log(`Total = ${total}`);
 });
