@@ -9,36 +9,39 @@
 
 // Function that adds values
 const add = function(x,y) {
-  return x + y;
+  const result = x + y;
+  return Number(result.toFixed(9));
 }
 
 // Function that substracts values
 const substract = function(x,y) {
-  return x - y;
+  const result = x - y;
+  return Number(result.toFixed(9));
 }
 
 // Function that multiplies values
 const multiply = function(x,y) {
-  return x * y;
+  const result = x * y;
+  return Number(result.toFixed(9));
 }
 
 // Function that divides values
 const divide = function(x,y) {
   if (y === 0) {
     console.log("division by 0 is not allowed.");
-    return null;
+    return 'Error';
   }
-  return x / y;
+  return Number((x / y).toFixed(9));
 }
 
 // Function that gets the remainder of the value
 const remainder = function(x, y) {
   if (y === 0) {
-    return null;
+    return 'Error';
   }
-  else {
-    return x % y;
-  }
+
+  const result = x % y;
+  return Number(result.toFixed(9));
 }
 
 // Function operator that takes an operator and two numbers
@@ -70,11 +73,38 @@ const operate = function(x, op, y) {
 // Function that updates the display after button interaction
 const updateDisplay = function(e) {
 
+  // Check if trying to add decimal point
+    if (e === '.') {
+        // Check which operand we're currently working with
+        const currentOperand = calculator.operator === '' ? calculator.primary : calculator.secondary;
+        
+        // Don't allow decimal if operand already has one
+      if (currentOperand.includes('.')) {
+        display.textContent += e;
+        document.getElementById(".").disabled = true;
+        return;
+      }
+    }
+  else {
+        document.getElementById(".").disabled = false;
+      }
+
   if (display.textContent.includes('Click Button')) {
     display.textContent = '';
   }
 
-    display.textContent += e;  
+  if (calculator.operator !== '' && calculator.secondary === '' && (e === '+' || e === '-' || e === '*' || e === '/' || e === '%')) {
+    deleteChar(e);
+  }
+  else if (calculator.operator !== '' && calculator.secondary !== '' && (e === '+' || e === '-' || e === '*' || e === '/' || e === '%')) {
+    const total = operate(Number(calculator.primary), calculator.operator, Number(calculator.secondary));
+    displayResult(total);
+    calculator.primary = total;
+    calculator.operator = e;
+    calculator.secondary = '';
+  }
+
+  display.textContent += e;
 }
  
 // Function that clears the calculator buffer
@@ -116,12 +146,12 @@ const deleteChar = function(e) {
     display.textContent = '';
     let arr = [calculator.primary + calculator.operator + calculator.secondary];
     updateDisplay(arr);
-    console.log(`calc.secondary after delete: ${calculator.primary}`);
+    console.log(`calc.primary after delete: ${calculator.primary}`);
   }
 }
 
 // Function that prints the result to display
-const displayResult = function(total) {
+const displayResult = function(total) {  
   display.textContent = '';
   calculator.primary = '';
   calculator.secondary = '';
@@ -167,7 +197,7 @@ deleteButtons.forEach((button) => {
 // Event for when user clicks a number button
 numberButtons.forEach((button) => {
   button.addEventListener('click', (event) => {
-
+ 
     const value = event.target.id;
     currDisplay = updateDisplay(value);
 
@@ -188,9 +218,13 @@ operatorButtons.forEach((button) => {
   button.addEventListener('click', (event) => {
     
     const op = event.target.id;
+
     currDisplay = updateDisplay(op);
+   
 
     calculator.operator = op;
+
+    console.log(`calculator.operator ${calculator.opeartor}`);
     
   });
 });
