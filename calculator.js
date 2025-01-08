@@ -241,3 +241,68 @@ resultButton.addEventListener('click', (event) => {
   
   console.log(`Total = ${total}`);
 });
+
+// ========================================================================================
+
+// Event for when user types on keyboard
+document.addEventListener("keydown", event => {
+
+  const key = event.key;
+  
+  switch(key) {
+    case 'Backspace':
+    case 'Delete':
+      deleteChar(event);
+      break;
+      
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+    case '.':
+      currDisplay = updateDisplay(key);
+
+    if (calculator.operator === '') {
+      calculator.primary += key;
+    }
+    else if (calculator.operator !== '') {
+      calculator.secondary += key;
+    }
+      console.log(`calculator.primary: ${calculator.primary}`);
+      console.log(`calculator.secondary: ${calculator.secondary}`);
+      break;
+
+    case '+':
+    case '-':
+    case '*':
+    case '/':
+    case '%':
+      currDisplay = updateDisplay(key);
+      calculator.operator = key;
+
+      console.log(`calculator.operator ${calculator.opeartor}`);
+      break;
+
+    case '=':
+    case 'Enter':
+      const total = operate(Number(calculator.primary), calculator.operator, Number(calculator.secondary));
+  display.textContent = '';
+  currDisplay = updateDisplay(total);
+
+  calculator.primary = total;
+  calculator.operator = '';
+  calculator.secondary = '';
+  
+      console.log(`Total = ${total}`);
+      break;
+
+    default:
+      console.log("Unknown key was typed: ${key}");
+  }
+});
