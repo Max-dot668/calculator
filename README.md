@@ -41,5 +41,6 @@ A fully functional calculator built with vanilla JavaScript, HTML, and CSS. Feat
 ## 🔧 Installation & Setup
 
 1. Clone the repository:
-```bash
+2. Open index.html in any modern web browser
+3. Start calculating
 git clone https://github.com/Max-dot668/calculator.git
