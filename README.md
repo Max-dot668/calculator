@@ -38,4 +38,8 @@ A fully functional calculator built with vanilla JavaScript, HTML, and CSS. Feat
 - **Input Validation**: Prevents multiple decimal points in single number
 - **Operation Chaining**: Automatically calculates when entering new operators
 
-## 🏗️ Code Structure
+## 🔧 Installation & Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Max-dot668/calculator.git
